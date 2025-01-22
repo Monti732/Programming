@@ -6,15 +6,15 @@ using namespace std;
 int main() {
 	srand(time(0));
 	int d[5][5];
-	for (int i = 0; i < 4; ++i) {
-		for (int j = 0; j < 4; ++j) {
+	for (int i = 0; i < 5; ++i) {
+		for (int j = 0; j < 5; ++j) {
 			d[i][j] = rand() / 100;
 		}
 	}
 	int max = d[0][0];
 	int min = d[0][0];
-	for (int i = 0; i < 4; ++i) {
-		for (int j = 0; j < 4; ++j) {
+	for (int i = 0; i < 5; ++i) {
+		for (int j = 0; j < 5; ++j) {
 			if (max < d[i][j]) {
 				max = d[i][j];
 			}
@@ -23,18 +23,18 @@ int main() {
 			}
 		}
 	}
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < 5; ++i) {
 		cout << endl;
-		for (int j = 0; j < 4; ++j) {
+		for (int j = 0; j < 5; ++j) {
 			cout << d[i][j] << ' ';
 		}
 	}
 	cout << endl;
 	d[0][0] = max;
 	d[4][4] = min;
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < 5; ++i) {
 		cout << endl;
-		for (int j = 0; j < 4; ++j) {
+		for (int j = 0; j < 5; ++j) {
 			cout << d[i][j] << ' ';
 		}
 	}
