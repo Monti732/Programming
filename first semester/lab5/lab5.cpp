@@ -1,43 +1,31 @@
 #include <iostream>
+#include <ctime>
 #include <cmath>
 
 using namespace std;
 
+void fillArrays(int array[], int size) {
+	srand(time(0));
+	for (int i = 0; i < size; ++i) {
+		array[i] = rand() / 100;
+	}
+}
+
+int sumOfSquares(int array[], int size) {
+	int sum = 0;
+	for (int i = 0; i < size; ++i) {
+		sum += pow(array[i], 2);
+	}
+	return sum;
+}
+
 int main() {
-	setlocale(LC_ALL, "ru");
-	float tInit, tFinal, time, tMID, T{ 10.0 }; // time - время остывания, Т - время(момент времени), tMID - средняя температура
-
-	cout << "Введите исходную темпиратуру: ";
-	cin >> tInit;
-	cout << "Введите температуру затвердивания: ";
-	cin >> tFinal;
-
-	time = (-1 / 0.021) * log(tFinal / (tInit * 1.0));
-
-	while (T <= 30) {
-		if (T < time) {
-			tMID = tInit * pow(exp(1.0), -0.021 * T);
-			cout << tMID << endl;
-			T += 10;
-		}
-		else {
-			tMID = tFinal * pow(exp(1.0), -0.015 * (T - time));
-			cout << tMID << endl;
-			T += 10;
-		}
-	}
-
-	T = 50;
-	while (T <= 100) {
-		if (T < time) {
-			tMID = tInit * pow(exp(1.0), -0.021 * T);
-			cout << tMID << endl;
-			T += 50;
-		}
-		else {
-			tMID = tFinal * pow(exp(1.0), -0.015 * (T - time));
-			cout << tMID << endl;
-			T += 50;
-		}
-	}
+	int const sizeP = 5;
+	int const sizeG = 10;
+	int P[sizeP];
+	int G[sizeG];
+	fillArrays(P, sizeP);
+	fillArrays(G, sizeG);
+	cout << sumOfSquares(P, sizeP) << endl;
+	cout << sumOfSquares(G, sizeG) << endl;
 }

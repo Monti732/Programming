@@ -1,43 +1,41 @@
 #include <iostream>
-#include <cmath>
+#include <ctime>
 
 using namespace std;
 
 int main() {
-	setlocale(LC_ALL, "rus");
-	float tInit, tFinal, time, tMID, T{ 10.0 }; // time - время остывания, Т - время(момент времени), tMID - средняя температура
-
-	cout << "Введите исходную темпиратуру: ";
-	cin >> tInit;
-	cout << "Введите температуру затвердивания: ";
-	cin >> tFinal;
-
-	time = (-1 / 0.021) * log(tFinal / (tInit * 1.0));
-
-	while (T <= 30) {
-		if (T < time) {
-			tMID = tInit * pow(exp(1.0), -0.021 * T);
-			cout << tMID << endl;
-			T += 10;
-		}
-		else {
-			tMID = tFinal * pow(exp(1.0), -0.015 * (T - time));
-			cout << tMID << endl;
-			T += 10;
+	srand(time(0));
+	int d[5][5];
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < 4; ++j) {
+			d[i][j] = rand() / 100;
 		}
 	}
-
-	T = 50;
-	while (T <= 100) {
-		if (T < time) {
-			tMID = tInit * pow(exp(1.0), -0.021 * T);
-			cout << tMID << endl;
-			T += 50;
+	int max = d[0][0];
+	int min = d[0][0];
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < 4; ++j) {
+			if (max < d[i][j]) {
+				max = d[i][j];
+			}
+			if (min > d[i][j]) {
+				min = d[i][j];
+			}
 		}
-		else {
-			tMID = tFinal * pow(exp(1.0), -0.015 * (T - time));
-			cout << tMID << endl;
-			T += 50;
+	}
+	for (int i = 0; i < 4; ++i) {
+		cout << endl;
+		for (int j = 0; j < 4; ++j) {
+			cout << d[i][j] << ' ';
+		}
+	}
+	cout << endl;
+	d[0][0] = max;
+	d[4][4] = min;
+	for (int i = 0; i < 4; ++i) {
+		cout << endl;
+		for (int j = 0; j < 4; ++j) {
+			cout << d[i][j] << ' ';
 		}
 	}
 }
