@@ -20,17 +20,9 @@ int main() {
         array.push_back(line);
     }
     for (int i = 0; i < numberOfLines; ++i) {
-        for (int j = i + 1; j < numberOfColumns; ++j) {
-            std::swap(array[i][j], array[j][i]);
-        }
-    }
-    for (int i = 0; i < numberOfLines; ++i) {
-        std::reverse(array[i].begin(), array[i].end());
-    }
-    for (int i = 0; i < numberOfLines; ++i) {
         int midSumInColomn = 0;
         for (int j = 0; j < numberOfColumns;++j) {
-            midSumInColomn += array[i][j];
+            midSumInColomn += array[j][i];
         }
         std::cout << "mid sum in colomn " << i + 1 << " = " << midSumInColomn / (numberOfColumns * 1.0) << '\n';
     }

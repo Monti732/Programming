@@ -7,9 +7,9 @@ int main() {
     std::cin >> number;
     for (int i = 2; i <= sqrt(number); ++i) {
         if (number % i == 0) {
-            std::cout << "NO PROSTOE";
+            std::cout << "Not a prime";
             return 0;
         }
     }
-    std::cout << "PROSTOE";
+    std::cout << "Prime";
 }

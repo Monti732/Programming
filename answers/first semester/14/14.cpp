@@ -20,18 +20,10 @@ int main() {
         array.push_back(line);
     }
     for (int i = 0; i < numberOfLines; ++i) {
-        for (int j = i + 1; j < numberOfColumns; ++j) {
-            std::swap(array[i][j], array[j][i]);
-        }
-    }
-    for (int i = 0; i < numberOfLines; ++i) {
-        std::reverse(array[i].begin(), array[i].end());
-    }
-    for (int i = 0; i < numberOfLines; ++i) {
         int sum = 0;
         for (int j = 0; j < numberOfColumns; ++j) {
             if (array[i][j] < 0) {
-                sum += array[i][j];
+                sum += array[j][i];
             }
         }
         std::cout << "sum of neg nums in colomn " << i + 1 << " = " << sum << '\n';
