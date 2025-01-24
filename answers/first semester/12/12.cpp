@@ -1,31 +1,41 @@
 #include <iostream>
+#include <vector>
 
 int main() {
-    int arrey[5][5]{
-        {1, 2, 3, 4, 5},
-        {6, 7, 8, 9, 8},
-        {1, 2, 3, 4, 5},
-        {6, 7, 8, 9, 3},
-        {2, 2, 3, 4, 5}
-    };
-    for (int i = 0; i < 5; ++i) {
-        std::cout << std::endl;
-        for (int j = 0; j < 5; ++j) {
-            std::cout << arrey[i][j] << " ";
+    std::vector<std::vector<int>> array;
+    int numberOfLines, numberOfColumns;
+    std::cout << "Enter number of lines ";
+    std::cin >> numberOfLines;
+    std::cout << "Enter number of columns ";
+    std::cin >> numberOfColumns;
+    std::cout << "Enter elements ";
+    for (int i = 0; i < numberOfLines; ++i) {
+        std::vector<int> line;
+        for (int j = 0; j < numberOfColumns; ++j) {
+            int element;
+            std::cin >> element;
+            line.push_back(element);
+        }
+        array.push_back(line);
+    }
+    std::cout << "\nOriginal array";
+    for (int i = 0; i < numberOfLines; ++i) {
+        std::cout << '\n';
+        for (int j = 0; j < numberOfColumns; ++j) {
+            std::cout << array[i][j] << " ";
         }
     }
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
-            if (i == j) {
-                arrey[i][j] = 0;
-            }
-        }
+    std::cout << "\n\nEnter new numbers ";
+    for (int i = 0; i < numberOfLines; ++i) {
+        int newNumber;
+        std::cin >> newNumber;
+        array[i][i] = newNumber;
     }
-    std::cout << "\n\n";
-    for (int i = 0; i < 5; ++i) {
-        std::cout << std::endl;
-        for (int j = 0; j < 5; ++j) {
-            std::cout << arrey[i][j] << " ";
+    std::cout << "\nChanged array";
+    for (int i = 0; i < numberOfLines; ++i) {
+        std::cout << '\n';
+        for (int j = 0; j < numberOfColumns; ++j) {
+            std::cout << array[i][j] << " ";
         }
     }
 }

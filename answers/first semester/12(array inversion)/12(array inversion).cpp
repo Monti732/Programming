@@ -12,14 +12,15 @@ int main() {
         std::cin >> element;
         array.push_back(element);
     }
-    for (int i = 0; i < numberOfElements; i++) {
-        for (int j = 0; j < numberOfElements - i - 1; ++j) {
-            if (array[j] > array[j + 1]) {
-                std::swap(array[j], array[j + 1]);
-            }
-        }
+    std::cout << "\n\nOriginal array\n";
+    for (int i = 0; i < numberOfElements; ++i) {
+        std::cout << array[i] << " ";
     }
-    for (int i = 0; i < numberOfElements; i++) {
+    for (int i = 0; i < numberOfElements / 2; ++i) {
+        std::swap(array[i], array[numberOfElements - i - 1]);
+    }
+    std::cout << "\n\nChanged array\n";
+    for (int i = 0; i < numberOfElements; ++i) {
         std::cout << array[i] << " ";
     }
 }

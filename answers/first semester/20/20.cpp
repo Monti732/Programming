@@ -3,6 +3,7 @@
 
 int main() {
     std::string str;
+    std::cout << "Enter full name ";
     std::getline(std::cin, str);
     size_t firstSpace = str.find_first_of(' ');
     size_t lastSpace = str.find_last_of(' ');

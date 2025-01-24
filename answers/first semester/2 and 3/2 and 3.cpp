@@ -2,25 +2,25 @@
 #include <vector>
 
 int main() {
-    srand(time(NULL));
+    std::vector<int> array;
     int sizeOfArray;
     std::cout << "Enter the size of array ";
     std::cin >> sizeOfArray;
-    std::vector<int> array;
     std::cout << "Enter the elements of array ";
     for (int i = 0; i < sizeOfArray; ++i) {
         int element;
         std::cin >> element;
         array.push_back(element);
     }
-    int sum = 0;
-    int product = 1;
+    int min = array[0];
+    int max = array[0];
     for (int i = 0; i < sizeOfArray; ++i) {
-        sum += array[i];
-        product = product * array[i];
+        if (max < array[i]) {
+            max = array[i];
+        }
+        if (min > array[i]) {
+            min = array[i];
+        }
     }
-    for (int i = 0; i < sizeOfArray; ++i) {
-        std::cout << array[i] << ' ';
-    }
-    std::cout << '\n' << sum << '\n' << product;
+    std::cout << "Max element of array " << max << "\nMin element of array " << min;
 }
