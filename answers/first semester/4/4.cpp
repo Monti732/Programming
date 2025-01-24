@@ -1,17 +1,34 @@
 #include <iostream>
+#include <vector>
 
 int main() {
-    int array[5][5]{{1,3,57,2,7},{6,2,7,9,2},{38,29,9,49,10},{1,4,1,6,0},{ 20,6,2,9,2}};
+    std::vector<std::vector<int>> array;
+    int numberOfLines, numberOfColumns;
+    std::cout << "Enter number of lines ";
+    std::cin >> numberOfLines;
+    std::cout << "Enter number of columns ";
+    std::cin >> numberOfColumns;
+    std::cout << "Enter elements";
+    for (int i = 0; i < numberOfLines; ++i) {
+        std::vector<int> line;
+        for (int j = 0; j < numberOfColumns; ++j) {
+            int element;
+            std::cin >> element;
+            line.push_back(element);
+        }
+        array.push_back(line);
+    }
     int max = array[0][0];
     int min = array[0][0];
-    for (int i = 0; i < 5; ++i) {
-        std::cout << std::endl;
-        for (int j = 0; j < 5; ++j) {
+    std::cout << "\nOriginal array";
+    for (int i = 0; i < numberOfLines; ++i) {
+        std::cout << '\n';
+        for (int j = 0; j < numberOfColumns; ++j) {
             std::cout << array[i][j] << ' ';
         }
     }
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
+    for (int i = 0; i < numberOfLines; ++i) {
+        for (int j = 0; j < numberOfColumns; ++j) {
             if (max < array[i][j]) {
                 max = array[i][j];
             }
@@ -20,8 +37,8 @@ int main() {
             }
         }
     }
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
+    for (int i = 0; i < numberOfLines; ++i) {
+        for (int j = 0; j < numberOfColumns; ++j) {
             if (array[i][j] == min) {
                 array[i][j] = max;
                 break;
@@ -32,10 +49,10 @@ int main() {
             }
         }
     }
-    std::cout << "\n" << "\n";
-    for (int i = 0; i < 5; ++i) {
-        std::cout << std::endl;
-        for (int j = 0; j < 5; ++j) {
+    std::cout << "\n\nChenged array";
+    for (int i = 0; i < numberOfLines; ++i) {
+        std::cout << '\n';
+        for (int j = 0; j < numberOfColumns; ++j) {
             std::cout << array[i][j] << ' ';
         }
     }
