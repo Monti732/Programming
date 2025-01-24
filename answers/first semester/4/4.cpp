@@ -49,7 +49,7 @@ int main() {
             }
         }
     }
-    std::cout << "\n\nChenged array";
+    std::cout << "\n\nChanged array";
     for (int i = 0; i < numberOfLines; ++i) {
         std::cout << '\n';
         for (int j = 0; j < numberOfColumns; ++j) {
