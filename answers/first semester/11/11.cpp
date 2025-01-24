@@ -2,12 +2,13 @@
 #include <cmath>
 
 int main() {
-    int a, b, c;
-    std::cin >> a >> b >> c;
-    int halfPerimeter = (a + b + c) / 2 * 1.0;
-    if ((a + b > c) && (a + c > b) && (b + c > a)) {
+    int aSide, bSide, cSide;
+    std::cout << "Enter the sides of triangle ";
+    std::cin >> aSide >> bSide >> cSide;
+    int halfPerimeter = (aSide + bSide + cSide) / 2 * 1.0;
+    if ((aSide + bSide > cSide) && (aSide + cSide > bSide) && (bSide + cSide > aSide)) {
         std::cout << "YES\n";
-        int area = sqrt(halfPerimeter * (halfPerimeter - a) * (halfPerimeter - b) * (halfPerimeter - c));
+        int area = sqrt(halfPerimeter * (halfPerimeter - aSide) * (halfPerimeter - bSide) * (halfPerimeter - cSide));
         std::cout << "area = " << area;
     }
     else {
