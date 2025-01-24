@@ -1,11 +1,28 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <vector>
 
 int main() {
-    int array[5]{1,7,3,8,30};
-    int sum, product;
-    for (int i = 0; i < 5; ++i) {
-        sum += array[i];
-        product *= array[i];
+    srand(time(NULL));
+    int sizeOfArray;
+    std::cout << "Enter the size of array ";
+    std::cin >> sizeOfArray;
+    std::vector<int> array;
+    std::cout << "Enter the elements of array ";
+    for (int i = 0; i < sizeOfArray; ++i) {
+        int element;
+        std::cin >> element;
+        array.push_back(element);
     }
-    std::cout << sum << '\n' << product;
+    int sum = 0;
+    int product = 1;
+    for (int i = 0; i < sizeOfArray; ++i) {
+        sum += array[i];
+        product = product * array[i];
+    }
+    for (int i = 0; i < sizeOfArray; ++i) {
+        std::cout << array[i] << ' ';
+    }
+    std::cout << '\n' << sum << '\n' << product;
 }
