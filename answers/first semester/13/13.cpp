@@ -1,18 +1,28 @@
 #include <iostream>
+#include <vector>
 
 int main() {
-    int array[5][5]{
-        {1, 2, 3, 4, 5},
-        {6, 7, 8, 9, 8},
-        {1, 2, 3, 4, 5},
-        {6, 7, 8, 9, 3},
-        {2, 2, 3, 4, 5}
-    };
-    for (int i = 0; i < 5; ++i) {
+    std::vector<std::vector<int>> array;
+    int numberOfLines, numberOfColumns;
+    std::cout << "Enter number of lines ";
+    std::cin >> numberOfLines;
+    std::cout << "Enter number of columns ";
+    std::cin >> numberOfColumns;
+    std::cout << "Enter elements";
+    for (int i = 0; i < numberOfLines; ++i) {
+        std::vector<int> line;
+        for (int j = 0; j < numberOfColumns; ++j) {
+            int element;
+            std::cin >> element;
+            line.push_back(element);
+        }
+        array.push_back(line);
+    }
+    for (int i = 0; i < numberOfLines; ++i) {
         int sum = 0;
-        for (int j = 0; j < 5; ++j) {
+        for (int j = 0; j < numberOfColumns; ++j) {
             sum += array[i][j];
         }
-        std::cout << "sum of row " << i + 1 << " is " << sum << std::endl;
+        std::cout << "sum of line " << i + 1 << " is " << sum << std::endl;
     }
 }
