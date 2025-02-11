@@ -14,5 +14,5 @@ int main() {
     else {
         std::cout << "Elevator will stop on " << numberOfFlat / numberOfFlatsOnFloor << " floor";
     }
-
+    
 }
