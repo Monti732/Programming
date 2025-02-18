@@ -1,13 +1,16 @@
 ﻿namespace Lab2;
 
-public class BaseDocument {
-  private string _name;
-  private string _author;
-  private string[] _keywords;
-  private string _topic;
-  private string _path;
+public abstract class BaseDocument {
+  protected Dictionary<DocumentInformation, object> _metaData { get; } =
+    new Dictionary<DocumentInformation, object>();
 
-  public void GetInformation(string _name, string _author, string _topic, string _path, string[] _keywords) {
-    
+  protected BaseDocument(Dictionary<DocumentInformation, object> metaData) {
+    _metaData = metaData;
+  }
+
+  public virtual void ConsoleOutInformation() {
+    foreach (var item in _metaData) {
+      Console.WriteLine($"{item.Key}: {item.Value}");
+    }
   }
 }
