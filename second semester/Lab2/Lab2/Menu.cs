@@ -52,7 +52,6 @@ class Menu {
 
   private void HandleSelection() {
     Console.Clear();
-    Console.WriteLine($"Selected: {_menuItems[_selectedIndex]}");
 
     if (_selectedIndex == _menuItems.Length - 1) {
       Console.WriteLine("Exiting program...");
