@@ -2,10 +2,11 @@
 
 public class MsExcelDocument : BaseDocument {
   private int _numberOfLists { get; }
-  
+
   private static MsExcelDocument _instance;
-  
-  private MsExcelDocument(Dictionary<DocumentInformation, object> documentData, int numberOfLists) : base(documentData) {
+
+  private MsExcelDocument(Dictionary<DocumentInformation, object> documentData, int numberOfLists) :
+    base(documentData) {
     _numberOfLists = numberOfLists;
   }
 
@@ -13,9 +14,10 @@ public class MsExcelDocument : BaseDocument {
     if (_instance == null) {
       _instance = new MsExcelDocument(documentData, numberOfLists);
     }
+
     return _instance;
   }
-   
+
   public override void ConsoleOutInformation() {
     Console.Clear();
     foreach (var item in _metaData) {

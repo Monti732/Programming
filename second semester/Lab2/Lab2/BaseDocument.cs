@@ -13,4 +13,4 @@ public abstract class BaseDocument {
       Console.WriteLine($"{item.Key}: {item.Value}");
     }
   }
-} 
+}

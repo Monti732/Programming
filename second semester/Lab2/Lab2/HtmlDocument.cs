@@ -2,9 +2,9 @@
 
 public class HtmlDocument : BaseDocument {
   private string _link { get; }
-  
+
   private static HtmlDocument _instance;
-  
+
   private HtmlDocument(Dictionary<DocumentInformation, object> documentData, string link) : base(documentData) {
     _link = link;
   }
@@ -13,9 +13,10 @@ public class HtmlDocument : BaseDocument {
     if (_instance == null) {
       _instance = new HtmlDocument(documentData, link);
     }
+
     return _instance;
   }
-   
+
   public override void ConsoleOutInformation() {
     Console.Clear();
     foreach (var item in _metaData) {

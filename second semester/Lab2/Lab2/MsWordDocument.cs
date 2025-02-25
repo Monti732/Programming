@@ -2,10 +2,10 @@
 
 public class MsWordDocument : BaseDocument {
   private int _numberOfPages { get; }
-  
+
   private static MsWordDocument _instance;
-  
-   private MsWordDocument(Dictionary<DocumentInformation, object> documentData, int numberOfPages) : base(documentData) {
+
+  private MsWordDocument(Dictionary<DocumentInformation, object> documentData, int numberOfPages) : base(documentData) {
     _numberOfPages = numberOfPages;
   }
 
@@ -13,9 +13,10 @@ public class MsWordDocument : BaseDocument {
     if (_instance == null) {
       _instance = new MsWordDocument(documentData, numberOfPages);
     }
+
     return _instance;
   }
-   
+
   public override void ConsoleOutInformation() {
     Console.Clear();
     foreach (var item in _metaData) {
