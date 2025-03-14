@@ -30,13 +30,13 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
     double minValue = Convert.ToDouble(Console.ReadLine());
     double maxValue = Convert.ToDouble(Console.ReadLine());
     if (fillByYourself == 1) {
-      for (int i = 0; i < _size; ++i) {
-        for (int j = 0; j < _size; ++j) {
+      for (int rows = 0; rows < _size; ++rows) {
+        for (int cols = 0; cols < _size; ++cols) {
           while (true) {
             try {
               Console.WriteLine("Enter elements of the matrix:");
 
-              Console.Write($"Element [{i},{j}]: ");
+              Console.Write($"Element [{rows},{cols}]: ");
               int value = int.Parse(Console.ReadLine());
 
               if (value > maxValue || value < minValue) {
@@ -44,7 +44,7 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
                   $"Value {value} is not acceptable! Alloed range: [{minValue}, {maxValue}]");
               }
 
-              _matrix[i, j] = value;
+              _matrix[rows, cols] = value;
 
               break;
             }
@@ -63,9 +63,9 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
 
     else {
       Random rnd = new Random();
-      for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-          _matrix[i, j] = rnd.Next(Convert.ToInt32(minValue), Convert.ToInt32(maxValue));
+      for (int rows = 0; rows < size; ++rows) {
+        for (int cols = 0; cols < size; ++cols) {
+          _matrix[rows, cols] = rnd.Next(Convert.ToInt32(minValue), Convert.ToInt32(maxValue));
         }
       }
     }
@@ -73,13 +73,13 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
 
 
   private static double[,] DeepCopy(double[,] source) {
-    int rows = source.GetLength(0);
-    int cols = source.GetLength(1);
-    double[,] copy = new double[rows, cols];
+    int rowsCount = source.GetLength(0);
+    int colsCount = source.GetLength(1);
+    double[,] copy = new double[rowsCount, colsCount];
 
-    for (int i = 0; i < rows; ++i) {
-      for (int j = 0; j < cols; ++j) {
-        copy[i, j] = source[i, j];
+    for (int rows = 0; rows < rowsCount; ++rows) {
+      for (int cols = 0; cols < colsCount; ++cols) {
+        copy[rows, cols] = source[rows, cols];
       }
     }
 
@@ -92,23 +92,23 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
     if (_size == 1) return _matrix[0, 0];
 
     double det = 0;
-    for (int i = 0; i < _size; ++i) {
-      SquareMatrix minor = GetMinor(this, 0, i);
-      det += ((i % 2 == 0) ? 1 : -1) * _matrix[0, i] * minor.Determinant();
+    for (int col = 0; col < _size; ++col) {
+      SquareMatrix minor = GetMinor(this, 0, col);
+      det += ((col % 2 == 0) ? 1 : -1) * _matrix[0, col] * minor.Determinant();
     }
 
     return det;
   }
 
-  private SquareMatrix GetMinor(SquareMatrix matrix, int row, int col) {
+  private SquareMatrix GetMinor(SquareMatrix matrix, int minorRow, int minorCol) {
     int size = matrix.Size;
     SquareMatrix minor = new SquareMatrix(size - 1);
 
-    for (int i = 0, minorI = 0; i < size; i++) {
-      if (i == row) continue;
-      for (int j = 0, minorJ = 0; j < size; j++) {
-        if (j == col) continue;
-        minor._matrix[minorI, minorJ] = matrix._matrix[i, j];
+    for (int row = 0, minorI = 0; row < size; row++) {
+      if (row == minorRow) continue;
+      for (int col = 0, minorJ = 0; col < size; col++) {
+        if (col == minorCol) continue;
+        minor._matrix[minorI, minorJ] = matrix._matrix[row, col];
         ++minorJ;
       }
 
@@ -122,14 +122,14 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
     int size = this.Size;
     SquareMatrix adjoint = new SquareMatrix(size);
 
-    for (int i = 0; i < size; i++) {
-      for (int j = 0; j < size; j++) {
-        SquareMatrix minor = GetMinor(this, i, j);
+    for (int row = 0; row < size; row++) {
+      for (int col = 0; col < size; col++) {
+        SquareMatrix minor = GetMinor(this, row, col);
         double minorDet = minor.Determinant();
 
-        int sign = (i + j) % 2 == 0 ? 1 : -1;
+        int sign = (row + col) % 2 == 0 ? 1 : -1;
 
-        adjoint._matrix[j, i] = sign * minorDet;
+        adjoint._matrix[col, row] = sign * minorDet;
       }
     }
 
@@ -138,16 +138,19 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
 
   public SquareMatrix Inverse() {
     double det = Determinant();
-    if (det == 0)
+    if (det == 0) {
       throw new MatrixException("Inverse matrix doesn't exist, determinant is zero!");
+    }
 
-    int size = this.Size;
+    int size = Size;
     SquareMatrix inverse = new SquareMatrix(size);
     SquareMatrix adjoint = Adjoint();
 
-    for (int i = 0; i < size; i++)
-    for (int j = 0; j < size; j++)
-      inverse._matrix[i, j] = adjoint._matrix[i, j] / det;
+    for (int row = 0; row < size; row++) {
+      for (int col = 0; col < size; col++) {
+        inverse._matrix[row, col] = adjoint._matrix[row, col] / det;
+      }
+    }
 
     return inverse;
   }
@@ -156,9 +159,9 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
     if (left.Size != right.Size) throw new MatrixException("Matrix size mismatch!");
 
     SquareMatrix result = new SquareMatrix(left.Size);
-    for (int i = 0; i < left.Size; ++i) {
-      for (int j = 0; j < left.Size; ++j) {
-        result._matrix[i, j] = left._matrix[i, j] + right._matrix[i, j];
+    for (int row = 0; row < left.Size; ++row) {
+      for (int col = 0; col < left.Size; ++col) {
+        result._matrix[row, col] = left._matrix[row, col] + right._matrix[row, col];
       }
     }
 
@@ -169,10 +172,10 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
     if (left.Size != right.Size) throw new MatrixException("Matrix size mismatch!");
 
     SquareMatrix result = new SquareMatrix(left.Size);
-    for (int i = 0; i < left.Size; ++i) {
-      for (int j = 0; j < left.Size; ++j) {
-        for (int k = 0; k < left.Size; k++) {
-          result._matrix[i, j] += left._matrix[i, k] * right._matrix[k, j];
+    for (int row = 0; row < left.Size; ++row) {
+      for (int col = 0; col < left.Size; ++col) {
+        for (int index = 0; index < left.Size; index++) {
+          result._matrix[row, col] += left._matrix[row, index] * right._matrix[index, col];
         }
       }
     }
@@ -187,9 +190,9 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
 
   public static bool operator ==(SquareMatrix left, SquareMatrix right) {
     if (left.Size != right.Size) return false;
-    for (int i = 0; i < left.Size; ++i) {
-      for (int j = 0; j < left.Size; ++j) {
-        if (left._matrix[i, j] != right._matrix[i, j])
+    for (int row = 0; row < left.Size; ++row) {
+      for (int col = 0; col < left.Size; ++col) {
+        if (left._matrix[row, col] != right._matrix[row, col])
           return false;
       }
     }
@@ -201,9 +204,9 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
 
   public override string ToString() {
     string result = "";
-    for (int i = 0; i < _size; ++i) {
-      for (int j = 0; j < _size; ++j)
-        result += $"{_matrix[i, j],6:F2} ";
+    for (int row = 0; row < _size; ++row) {
+      for (int col = 0; col < _size; ++col)
+        result += $"{_matrix[row, col],6:F2} ";
       result += "\n";
     }
 
@@ -217,18 +220,18 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
 
   public static explicit operator string(SquareMatrix matrix) {
     string result = "";
-    for (int i = 0; i < matrix._size; ++i) {
-      for (int j = 0; j < matrix._size; ++j)
-        result += $"{matrix._matrix[i, j]} ";
+    for (int row = 0; row < matrix._size; ++row) {
+      for (int col = 0; col < matrix._size; ++col)
+        result += $"{matrix._matrix[row, col]} ";
     }
 
     return result;
   }
 
   public static bool operator true(SquareMatrix matrix) {
-    for (int i = 0; i < matrix.Size; ++i) {
-      for (int j = 0; j < matrix.Size; ++j) {
-        if (matrix._matrix[i, j] != 0) return true;
+    for (int row = 0; row < matrix.Size; ++row) {
+      for (int col = 0; col < matrix.Size; ++col) {
+        if (matrix._matrix[row, col] != 0) return true;
       }
     }
 
@@ -236,9 +239,9 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
   }
 
   public static bool operator false(SquareMatrix matrix) {
-    for (int i = 0; i < matrix.Size; ++i) {
-      for (int j = 0; j < matrix.Size; ++j) {
-        if (matrix._matrix[i, j] == 0) return false;
+    for (int row = 0; row < matrix.Size; ++row) {
+      for (int col = 0; col < matrix.Size; ++col) {
+        if (matrix._matrix[row, col] == 0) return false;
       }
     }
 

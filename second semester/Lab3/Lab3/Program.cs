@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using Lab3;
+﻿using Lab3;
 
 class Program() {
   static void Main() {
