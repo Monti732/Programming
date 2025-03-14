@@ -12,8 +12,6 @@ class Program() {
       "Exit program"
     };
 
-    DocumentManager manager = DocumentManager.GetInstance();
-    
     Data msWordData = new Data("text.docs", "User", "C:\\Users\\User\\Desktop\\text.docs", "C#", "OOP, Programming");
     Dictionary<DocumentInformation, object> msWordDocumentData = new Dictionary<DocumentInformation, object>();
 
@@ -38,36 +36,39 @@ class Program() {
     while (true) {
       menu.Show();
       int choice = menu.GetSelectedIndex();
-      BaseDocument document = null;
       switch (choice) {
       case 0: {
         FillInformation(msWordDocumentData, msWordData);
-        document = new MsWordDocument(msWordDocumentData, 4);
+        MsWordDocument msWordDocument = MsWordDocument.GetInstance(msWordDocumentData, 3);
+        msWordDocument.ConsoleOutInformation();
         break;
       }
       case 1: {
         FillInformation(pdfDocumentData, pdfData);
-        document = new PDFDocument(pdfDocumentData, true);
+        PDFDocument pdfDocument = PDFDocument.GetInstance(pdfDocumentData, true);
+        pdfDocument.ConsoleOutInformation();
         break;
       }
       case 2: {
         FillInformation(msExcelDocumentData, msExcelData);
-        document = new MsExcelDocument(msExcelDocumentData, 3);
+        MsExcelDocument msExcelDocument = MsExcelDocument.GetInstance(msExcelDocumentData, 10);
+        msExcelDocument.ConsoleOutInformation();
         break;
       }
       case 3: {
         FillInformation(txtDocumentData, txtData);
-        document = new TxtDocument(txtDocumentData, 3222);
+        TxtDocument txtDocument = TxtDocument.GetInstance(txtDocumentData, 3324);
+        txtDocument.ConsoleOutInformation();
         break;
       }
       case 4: {
         FillInformation(htmlDocumentData, htmlData);
-        document = new HtmlDocument(htmlDocumentData, "https://localhost");
+        HtmlDocument htmlDocument = HtmlDocument.GetInstance(htmlDocumentData, "http://127.0.0.1:5500/lab2/index.html");
+        htmlDocument.ConsoleOutInformation();
         break;
       }
       }
-      
-      manager.ConsoleOutInformation(document);
+
       Console.WriteLine("To continue press any key...");
       Console.ReadKey(true);
       Console.Clear();
