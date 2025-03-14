@@ -12,8 +12,8 @@ class Menu {
 
   public void Show() {
     Console.Clear();
-    Console.WriteLine("Menu\n");
-
+    Console.WriteLine("ULTRA MEGA CALCULATOR\n");
+    
     _row = Console.CursorTop;
     _col = Console.CursorLeft;
 
@@ -29,7 +29,6 @@ class Menu {
           _selectedIndex--;
         break;
       case ConsoleKey.Enter:
-        HandleSelection();
         return;
       }
     }
@@ -49,16 +48,7 @@ class Menu {
 
     Console.WriteLine();
   }
-
-  private void HandleSelection() {
-    Console.Clear();
-
-    if (_selectedIndex == _menuItems.Length - 1) {
-      Console.WriteLine("Exiting program...");
-      Environment.Exit(0);
-    }
-  }
-
+  
   public int GetSelectedIndex() {
     return _selectedIndex;
   }
