@@ -36,13 +36,13 @@ class Menu {
 
   private void DrawMenu() {
     Console.SetCursorPosition(_col, _row);
-    for (int i = 0; i < _menuItems.Length; i++) {
-      if (i == _selectedIndex) {
+    for (int counter = 0; counter < _menuItems.Length; counter++) {
+      if (counter == _selectedIndex) {
         Console.BackgroundColor = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Black;
       }
 
-      Console.WriteLine(_menuItems[i]);
+      Console.WriteLine(_menuItems[counter]);
       Console.ResetColor();
     }
 
