@@ -2,30 +2,46 @@
 
 public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
   private readonly int _size;
-  private int[,] _matrix;
+  private double[,] _matrix;
 
   public int Size => _size;
 
 /*Если нам нужно реализовать матричный калькулятор то зачем нужен конструктор для ее случайной генерации?*/
-  public SquareMatrix(int size, int minValue, int maxValue, bool fillByYourself) {
+  public SquareMatrix(int size, int fillByYourself) {
+    _size = size;
+    _matrix = new double[size, size];
+    FillMatrix(size, fillByYourself);
+  }
+
+  private SquareMatrix(int size) {
+    _size = size;
+    _matrix = new double[size, size];
+  }
+
+  public SquareMatrix(SquareMatrix other) {
+    _size = other._size;
+    _matrix = DeepCopy(other._matrix);
+  }
+
+  private void FillMatrix(int size, int fillByYourself) {
     if (size <= 0) throw new MatrixException("Matrix size must be greater than 0!");
 
-    _size = size;
-    _matrix = new int[size, size];
-
-    if (fillByYourself) {
+    Console.Write("Enter min and max values: ");
+    double minValue = Convert.ToDouble(Console.ReadLine());
+    double maxValue = Convert.ToDouble(Console.ReadLine());
+    if (fillByYourself == 1) {
       for (int i = 0; i < _size; ++i) {
         for (int j = 0; j < _size; ++j) {
           while (true) {
             try {
-              Console.Clear();
               Console.WriteLine("Enter elements of the matrix:");
 
               Console.Write($"Element [{i},{j}]: ");
               int value = int.Parse(Console.ReadLine());
 
-              if (value > maxValue) {
-                throw new ArgumentOutOfRangeException($"Value {value} is too large! Max allowed: {maxValue}");
+              if (value > maxValue || value < minValue) {
+                throw new ArgumentOutOfRangeException(
+                  $"Value {value} is not acceptable! Alloed range: [{minValue}, {maxValue}]");
               }
 
               _matrix[i, j] = value;
@@ -49,26 +65,17 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
       Random rnd = new Random();
       for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-          _matrix[i, j] = rnd.Next(minValue, maxValue);
+          _matrix[i, j] = rnd.Next(Convert.ToInt32(minValue), Convert.ToInt32(maxValue));
         }
       }
     }
   }
 
-  public SquareMatrix(int size) {
-    _size = size;
-    _matrix = new int[size, size];
-  }
 
-  public SquareMatrix(SquareMatrix other) {
-    _size = other._size;
-    _matrix = DeepCopy(other._matrix);
-  }
-
-  private static int[,] DeepCopy(int[,] source) {
+  private static double[,] DeepCopy(double[,] source) {
     int rows = source.GetLength(0);
     int cols = source.GetLength(1);
-    int[,] copy = new int[rows, cols];
+    double[,] copy = new double[rows, cols];
 
     for (int i = 0; i < rows; ++i) {
       for (int j = 0; j < cols; ++j) {
@@ -81,20 +88,19 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
 
   public object Clone() => new SquareMatrix(this);
 
-  /*I don't know why this...thing don't work, but I'd really like to find out*/
-  public int Determinant() {
+  public double Determinant() {
     if (_size == 1) return _matrix[0, 0];
 
-    int det = 0;
+    double det = 0;
     for (int i = 0; i < _size; ++i) {
-      SquareMatrix minor = GetMinor(this, i, i);
+      SquareMatrix minor = GetMinor(this, 0, i);
       det += ((i % 2 == 0) ? 1 : -1) * _matrix[0, i] * minor.Determinant();
     }
 
     return det;
   }
 
-  public SquareMatrix GetMinor(SquareMatrix matrix, int row, int col) {
+  private SquareMatrix GetMinor(SquareMatrix matrix, int row, int col) {
     int size = matrix.Size;
     SquareMatrix minor = new SquareMatrix(size - 1);
 
@@ -119,7 +125,7 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
     for (int i = 0; i < size; i++) {
       for (int j = 0; j < size; j++) {
         SquareMatrix minor = GetMinor(this, i, j);
-        int minorDet = minor.Determinant();
+        double minorDet = minor.Determinant();
 
         int sign = (i + j) % 2 == 0 ? 1 : -1;
 
@@ -131,7 +137,7 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
   }
 
   public SquareMatrix Inverse() {
-    int det = Determinant();
+    double det = Determinant();
     if (det == 0)
       throw new MatrixException("Inverse matrix doesn't exist, determinant is zero!");
 
@@ -146,27 +152,27 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
     return inverse;
   }
 
-  public static SquareMatrix operator +(SquareMatrix a, SquareMatrix b) {
-    if (a.Size != b.Size) throw new MatrixException("Matrix size mismatch!");
+  public static SquareMatrix operator +(SquareMatrix left, SquareMatrix right) {
+    if (left.Size != right.Size) throw new MatrixException("Matrix size mismatch!");
 
-    SquareMatrix result = new SquareMatrix(a.Size);
-    for (int i = 0; i < a.Size; ++i) {
-      for (int j = 0; j < a.Size; ++j) {
-        result._matrix[i, j] = a._matrix[i, j] + b._matrix[i, j];
+    SquareMatrix result = new SquareMatrix(left.Size);
+    for (int i = 0; i < left.Size; ++i) {
+      for (int j = 0; j < left.Size; ++j) {
+        result._matrix[i, j] = left._matrix[i, j] + right._matrix[i, j];
       }
     }
 
     return result;
   }
 
-  public static SquareMatrix operator *(SquareMatrix a, SquareMatrix b) {
-    if (a.Size != b.Size) throw new MatrixException("Matrix size mismatch!");
+  public static SquareMatrix operator *(SquareMatrix left, SquareMatrix right) {
+    if (left.Size != right.Size) throw new MatrixException("Matrix size mismatch!");
 
-    SquareMatrix result = new SquareMatrix(a.Size);
-    for (int i = 0; i < a.Size; ++i) {
-      for (int j = 0; j < a.Size; ++j) {
-        for (int k = 0; k < a.Size; k++) {
-          result._matrix[i, j] += a._matrix[i, k] * b._matrix[k, j];
+    SquareMatrix result = new SquareMatrix(left.Size);
+    for (int i = 0; i < left.Size; ++i) {
+      for (int j = 0; j < left.Size; ++j) {
+        for (int k = 0; k < left.Size; k++) {
+          result._matrix[i, j] += left._matrix[i, k] * right._matrix[k, j];
         }
       }
     }
@@ -174,16 +180,16 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
     return result;
   }
 
-  public static bool operator >(SquareMatrix a, SquareMatrix b) => a.Determinant() > b.Determinant();
-  public static bool operator <(SquareMatrix a, SquareMatrix b) => a.Determinant() < b.Determinant();
-  public static bool operator >=(SquareMatrix a, SquareMatrix b) => a.Determinant() >= b.Determinant();
-  public static bool operator <=(SquareMatrix a, SquareMatrix b) => a.Determinant() <= b.Determinant();
+  public static bool operator >(SquareMatrix left, SquareMatrix right) => left.Determinant() > right.Determinant();
+  public static bool operator <(SquareMatrix left, SquareMatrix right) => left.Determinant() < right.Determinant();
+  public static bool operator >=(SquareMatrix left, SquareMatrix right) => left.Determinant() >= right.Determinant();
+  public static bool operator <=(SquareMatrix left, SquareMatrix right) => left.Determinant() <= right.Determinant();
 
-  public static bool operator ==(SquareMatrix a, SquareMatrix b) {
-    if (a.Size != b.Size) return false;
-    for (int i = 0; i < a.Size; ++i) {
-      for (int j = 0; j < a.Size; ++j) {
-        if (a._matrix[i, j] != b._matrix[i, j])
+  public static bool operator ==(SquareMatrix left, SquareMatrix right) {
+    if (left.Size != right.Size) return false;
+    for (int i = 0; i < left.Size; ++i) {
+      for (int j = 0; j < left.Size; ++j) {
+        if (left._matrix[i, j] != right._matrix[i, j])
           return false;
       }
     }
@@ -191,7 +197,7 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
     return true;
   }
 
-  public static bool operator !=(SquareMatrix a, SquareMatrix b) => !(a == b);
+  public static bool operator !=(SquareMatrix left, SquareMatrix right) => !(left == right);
 
   public override string ToString() {
     string result = "";
