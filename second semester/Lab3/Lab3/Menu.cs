@@ -1,8 +1,8 @@
 ﻿namespace Lab3;
 
 public abstract class Menu {
-  private string[] _menuItems;
-  private int _selectedIndex;
+  protected string[] _menuItems;
+  protected int _selectedIndex;
   protected int _row, _col;
 
   protected Menu(string[] items) {
@@ -44,5 +44,9 @@ public abstract class Menu {
     }
 
     Console.WriteLine();
+  }
+
+  public int GetSelectedIndex() {
+    return _selectedIndex;
   }
 }

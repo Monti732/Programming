@@ -8,5 +8,5 @@ public struct MenuItems {
   ];
 
   public readonly string[] FillMatrixItems = ["Fill Automatically", "Fill By Yourself"];
-  public MenuItems() {}
+  public MenuItems() { }
 }

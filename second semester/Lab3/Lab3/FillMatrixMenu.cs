@@ -11,8 +11,4 @@ public class FillMatrixMenu : Menu {
     Console.Clear();
     base.Show();
   }
-
-  public int GetSelectedIndex() {
-    return _selectedIndex;
-  }
 }
