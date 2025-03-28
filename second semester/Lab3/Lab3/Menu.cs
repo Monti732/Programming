@@ -1,19 +1,16 @@
 ﻿namespace Lab3;
 
-class Menu {
-  private string[] _menuItems;
-  private int _selectedIndex;
-  private int _row, _col;
+public abstract class Menu {
+  protected string[] _menuItems;
+  protected int _selectedIndex;
+  protected int _row, _col;
 
-  public Menu(string[] items) {
+  protected Menu(string[] items) {
     _menuItems = items;
     _selectedIndex = 0;
   }
 
-  public void Show() {
-    Console.Clear();
-    Console.WriteLine("ULTRA MEGA CALCULATOR\n");
-    
+  public virtual void Show() {
     _row = Console.CursorTop;
     _col = Console.CursorLeft;
 
@@ -48,7 +45,7 @@ class Menu {
 
     Console.WriteLine();
   }
-  
+
   public int GetSelectedIndex() {
     return _selectedIndex;
   }
