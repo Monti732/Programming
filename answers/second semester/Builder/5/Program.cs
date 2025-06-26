@@ -50,7 +50,7 @@ public class HouseDirector {
 }
 
 class Program {
-  static void Main(string[] args) {
+  static void Main() {
     IHouseBuilder builder = new WoodHouseBuilder();
     HouseDirector director = new HouseDirector(builder);
 

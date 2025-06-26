@@ -74,7 +74,7 @@ public class AdvancedRemote : Remote {
 }
 
 class Program {
-  static void Main(string[] args) {
+  static void Main() {
     IDevice tv = new TV();
     Remote tvRemote = new Remote(tv);
     tvRemote.TogglePower();
