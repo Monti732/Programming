@@ -1,1 +1,2 @@
-# Programming-1-Semester
+# Programming
+Directory for programming labs of the first, second and third semesters
