@@ -43,20 +43,20 @@ class Program
         Console.Clear();
         Console.Write("Enter a degree base: ");
 
-        if (!int.TryParse(Console.ReadLine(), out int baseNumber))
+        if (!long.TryParse(Console.ReadLine(), out long baseNumber))
         {
             Console.WriteLine("Invalid input. Please enter an integer.");
             return;
         }
 
         Console.Write("Enter a power: ");
-        if (!int.TryParse(Console.ReadLine(), out int exponent))
+        if (!long.TryParse(Console.ReadLine(), out long exponent))
         {
             Console.WriteLine("Invalid input. Please enter an integer.");
             return;
         }
 
-        int result = 1;
+        long result = 1;
 
         while (exponent > 0)
         {
