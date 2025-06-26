@@ -2,6 +2,8 @@
 .vs
 .vscode
 .idea
+**/*.sln
+**/*.csproj
 
 
 Skip to content
